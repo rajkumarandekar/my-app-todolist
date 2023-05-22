@@ -1,0 +1,106 @@
+.user-list-container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .user-list-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .add-todo-container {
+    display: flex;
+    margin-bottom: 20px;
+  }
+
+  .todo-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+  .add-todo-button {
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .add-todo-button:hover {
+    background-color: #45a049;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .todo-text {
+    flex-grow: 1;
+  }
+
+  .edit-todo-input {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+
+  .todo-buttons {
+    display: flex;
+  }
+
+  .edit-todo-button,
+  .delete-todo-button {
+    padding: 4px 8px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .edit-todo-button:hover,
+  .delete-todo-button:hover {
+    background-color: #0069d9;
+  }
+/* Rest of the CSS code... */
+
+.edit-todo-button,
+.delete-todo-button {
+  padding: 4px 8px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-todo-button:hover,
+.delete-todo-button:hover {
+  background-color: #0069d9;
+}
+
+.save-todo-button {
+  padding: 4px 8px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-todo-button:hover {
+  background-color: #218838;
+}
+
+/* Rest of the CSS code... */
