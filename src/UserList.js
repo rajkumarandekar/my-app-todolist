@@ -13,7 +13,9 @@ const UserList = () => {
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/todos");
+      const response = await axios.get(
+        "https://bakcend-todo.onrender.com/api/todos"
+      );
       setTodos(response.data);
     } catch (error) {
       console.error(error);
@@ -22,7 +24,9 @@ const UserList = () => {
 
   const handleAddTodo = async () => {
     try {
-      await axios.post("http://localhost:5000/api/todos", { text: newText });
+      await axios.post("https://bakcend-todo.onrender.com/api/todos", {
+        text: newText,
+      });
       fetchTodos(); // Refresh the todo list
       setNewText("");
     } catch (error) {
@@ -33,7 +37,7 @@ const UserList = () => {
   const handleEditTodo = async (id) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/todos/${id}`,
+        `https://bakcend-todo.onrender.com/api/todos/${id}`,
         { text: newText }
       );
       console.log(response.data); // Optional: Log the updated todo item
@@ -46,7 +50,7 @@ const UserList = () => {
 
   const handleDeleteTodo = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/todos/${id}`);
+      await axios.delete(`https://bakcend-todo.onrender.com/api/todos/${id}`);
       fetchTodos(); // Refresh the todo list
     } catch (error) {
       console.error(error);
