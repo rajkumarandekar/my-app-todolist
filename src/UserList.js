@@ -1,41 +1,33 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./UserList.css"; // Import the CSS file for styling
+import { useHistory } from "react-router-dom";
+import "./UserList.css";
 
 const UserList = () => {
+  const history = useHistory();
   const [todos, setTodos] = useState([]);
   const [newText, setNewText] = useState("");
   const [editTodoId, setEditTodoId] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setToken(localStorage.getItem("token"));
-      setIsLoggedIn(true);
-      fetchTodos();
-    }
+    fetchTodos();
   }, []);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      localStorage.setItem("token", token);
-    } else {
-      localStorage.removeItem("token");
-    }
-  }, [isLoggedIn, token]);
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get(
-        "https://bakcend-todo.onrender.com/api/todos",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Authentication token not found");
+        return;
+      }
+
+      const response = await axios.get("http://localhost:5000/api/todos", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setTodos(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -44,15 +36,15 @@ const UserList = () => {
   const handleAddTodo = async () => {
     try {
       await axios.post(
-        "https://bakcend-todo.onrender.com/api/todos",
+        "http://localhost:5000/api/todos",
         { text: newText },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      fetchTodos(); // Refresh the todo list
+      fetchTodos();
       setNewText("");
     } catch (error) {
       console.error(error);
@@ -61,19 +53,17 @@ const UserList = () => {
 
   const handleEditTodo = async (id) => {
     try {
-      const response = await axios.put(
-        `https://bakcend-todo.onrender.com/api/todos/${id}`,
-
+      await axios.put(
+        `http://localhost:5000/api/todos/${id}`,
         { text: newText },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      console.log(response.data); // Optional: Log the updated todo item
-      fetchTodos(); // Refresh the todo list
-      setEditTodoId(null); // Clear the edit state
+      setEditTodoId(null);
+      fetchTodos();
     } catch (error) {
       console.error(error);
     }
@@ -81,12 +71,12 @@ const UserList = () => {
 
   const handleDeleteTodo = async (id) => {
     try {
-      await axios.delete(`https://bakcend-todo.onrender.com/api/todos/${id}`, {
+      await axios.delete(`http://localhost:5000/api/todos/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      fetchTodos(); // Refresh the todo list
+      fetchTodos();
     } catch (error) {
       console.error(error);
     }
@@ -101,96 +91,71 @@ const UserList = () => {
     const todoToUpdate = todos.find((todo) => todo._id === id);
     setNewText(todoToUpdate.text);
   };
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(
-        "https://bakcend-todo.onrender.com/api/login",
-        {
-          username: "",
-          password: "",
-        }
-      );
-      setToken(response.data);
-      setIsLoggedIn(true);
-      fetchTodos();
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    setToken("");
-    setTodos([]);
+    localStorage.removeItem("token");
+    history.push("/login");
   };
 
   return (
-    <div className="user-list-container">
+    <div className="user-list">
       <h1 className="user-list-title">Todo List</h1>
-      {isLoggedIn ? (
-        <>
-          <div className="add-todo-container">
-            <input
-              type="text"
-              value={newText}
-              onChange={handleEditInputChange}
-              disabled={editTodoId !== null}
-              className="todo-input"
-            />
-            <button className="add-todo-button" onClick={handleAddTodo}>
-              Add Todo
-            </button>
-          </div>
-          {todos.length === 0 ? (
-            <p>No todos found</p>
-          ) : (
-            <ul>
-              {todos.map((todo) => (
-                <li key={todo._id}>
-                  {editTodoId === todo._id ? (
-                    <>
-                      <input
-                        type="text"
-                        value={newText}
-                        onChange={handleEditInputChange}
-                      />
-                      <button
-                        className="save-todo-button"
-                        onClick={() => handleEditTodo(todo._id)}
-                      >
-                        Save
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      {todo.text}
-                      <button
-                        className="edit-todo-button"
-                        onClick={() => handleEditButtonClick(todo._id)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="delete-todo-button"
-                        onClick={() => handleDeleteTodo(todo._id)}
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-          <button className="logout-button" onClick={handleLogout}>
-            Logout
-          </button>
-        </>
-      ) : (
-        <button className="login-button" onClick={handleLogin}>
-          Login
+      <div className="add-todo">
+        <input
+          type="text"
+          value={newText}
+          onChange={handleEditInputChange}
+          disabled={editTodoId !== null}
+          className="add-todo-input"
+        />
+        <button className="add-todo-button" onClick={handleAddTodo}>
+          Add Todo
         </button>
-      )}
+        <button className="logout-button" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
+      <ul className="todo-list">
+        {todos.map((todo) => (
+          <li key={todo._id} className="todo-item">
+            {editTodoId === todo._id ? (
+              <>
+                <input
+                  type="text"
+                  value={newText}
+                  onChange={handleEditInputChange}
+                  className="edit-todo-input"
+                />
+                <button
+                  className="save-todo-button"
+                  onClick={() => handleEditTodo(todo._id)}
+                >
+                  Save
+                </button>
+              </>
+            ) : (
+              <>
+                <span className="todo-item">{todo.text}</span>
+
+                <div className="todo-actions">
+                  <button
+                    className="edit-todo-button"
+                    onClick={() => handleEditButtonClick(todo._id)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="delete-todo-button"
+                    onClick={() => handleDeleteTodo(todo._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
