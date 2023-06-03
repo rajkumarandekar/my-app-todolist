@@ -11,10 +11,13 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/register", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://bakcend-todo.onrender.com/api/register",
+        {
+          username,
+          password,
+        }
+      );
       localStorage.setItem("token", response.data.token);
       history.push("/login");
       console.log("Registered successfully");

@@ -21,11 +21,14 @@ const UserList = () => {
         return;
       }
 
-      const response = await axios.get("http://localhost:5000/api/todos", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://bakcend-todo.onrender.com/api/todos",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setTodos(response.data);
       console.log(response.data);
     } catch (error) {
@@ -36,7 +39,7 @@ const UserList = () => {
   const handleAddTodo = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/todos",
+        "https://bakcend-todo.onrender.com/api/todos",
         { text: newText },
         {
           headers: {
@@ -54,7 +57,7 @@ const UserList = () => {
   const handleEditTodo = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/todos/${id}`,
+        `https://bakcend-todo.onrender.com/api/todos/${id}`,
         { text: newText },
         {
           headers: {
@@ -71,7 +74,7 @@ const UserList = () => {
 
   const handleDeleteTodo = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/todos/${id}`, {
+      await axios.delete(`https://bakcend-todo.onrender.com/api/todos/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
