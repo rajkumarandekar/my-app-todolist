@@ -7,6 +7,81 @@
   text-align: center;
   margin-bottom: 20px;
   font-size: 50px;
+}
+
+
+.add-todo {
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.add-todo-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 20px;
+}
+
+.add-todo-button {
+  margin-left: 10px;
+  padding: 12px;
+  background-color: maroon;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logout-button {
+  margin-left: 10px;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-todo-button:hover,
+.logout-button:hover {
+  background-color: darkmagenta;
+}
+
+.todo-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+
+.todo-checkbox {
+  margin-right: 5px;
+
+}
+
+.todo-text {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+
+.user-list {
+  width: 500px;
+  margin: 0 auto;
+}
+
+.user-list-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 50px;
 
 }
 
@@ -113,3 +188,35 @@
   gap: 15px;
 }
 
+
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: greenyellow;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pagination button:hover {
+  background-color: green;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+.todo-text.completed {
+  text-decoration: line-through;
+}
