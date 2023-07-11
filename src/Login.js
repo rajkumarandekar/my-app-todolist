@@ -60,7 +60,7 @@ const Login = () => {
       </div>
       <div className="form-group">
         <button className="form-button" onClick={handleLogin}>
-          {loading ? "Loading..." : "Login"}
+          {loading ? "Loading...wait" : "Login"}
         </button>
       </div>
       {error && <p className="error-message">{error}</p>}

@@ -59,7 +59,7 @@ const Register = () => {
       </div>
       <div className="form-group">
         <button className="form-button" onClick={handleRegister}>
-          {loading ? "Loading..." : "Register"}
+          {loading ? "Loading...wait" : "Register"}
         </button>
       </div>
       {error && <p className="error-message">{error}</p>}
