@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import "./Form.css";
@@ -8,9 +8,17 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // New loading state
 
+  useEffect(() => {
+    return () => {
+      // Cleanup function to cancel any pending tasks
+      setLoading(false);
+    };
+  }, []);
   const handleRegister = async () => {
     try {
+      setLoading(true);
       const response = await axios.post(
         "https://bakcend-todo.onrender.com/api/register",
         {
@@ -23,6 +31,8 @@ const Register = () => {
       console.log("Registered successfully");
     } catch (error) {
       setError("Registration failed. Please try again.");
+    } finally {
+      setLoading(false); // Set loading to false after API call completes
     }
   };
 
@@ -49,7 +59,7 @@ const Register = () => {
       </div>
       <div className="form-group">
         <button className="form-button" onClick={handleRegister}>
-          Register
+          {loading ? "Loading..." : "Register"}
         </button>
       </div>
       {error && <p className="error-message">{error}</p>}

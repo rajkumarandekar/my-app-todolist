@@ -21,14 +21,11 @@ const UserList = () => {
         return;
       }
 
-      const response = await axios.get(
-        "https://bakcend-todo.onrender.com/api/todos",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get("https://bakcend-todo.onrender.com/api/todos", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setTodos(response.data);
       console.log(response.data);
     } catch (error) {
